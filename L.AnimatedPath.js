@@ -1,17 +1,14 @@
 
 
-// change smooth factor for length of latlngs
-// getLatLngs()
-
 L.AnimatedPath = L.Polyline.extend({
 	
 	options: {
 		color: '#fff',
 		weight: 1,
 		opacity: 0.5,
-		smoothFactor: 5,
-		animationSpeed: 5000,
-		maxPathLength: 250		// removes old latlng values
+		smoothFactor: 1,
+		animationSpeed: 10000,
+		maxPathLength: 1000		// removes old latlng values
 	},
 	
 	initialize: function (latlngs, options) {
@@ -57,6 +54,7 @@ L.AnimatedPath = L.Polyline.extend({
 		}
 		
 		this.clipLatLngs();
+		this._updateSmoothFactor()
 	},
 	
 	clipLatLngs: function() {
@@ -66,6 +64,30 @@ L.AnimatedPath = L.Polyline.extend({
 			latlngs.shift();
 		}
 		this.setLatLngs(latlngs);
+	},
+	
+	// change smooth factor based on length of latlngs
+	_updateSmoothFactor: function() {
+		var smoothFactor = 1;
+		var length = this.getLatLngs().length;
+		
+		switch(length) {
+			case length < 250:
+				break;
+			case length < 500:
+				smoothFactor = 2;
+				break;
+			case length < 1000:
+				smoothFactor = 5;
+				break;
+			case length < 5000:
+				smoothFactor = 10;
+				break;
+			default:
+				smoothFactor = 15;
+		}
+		
+		this.options.smoothFactor = smoothFactor;
 	},
 	
 	animate: function() {
@@ -93,7 +115,7 @@ L.AnimatedPath = L.Polyline.extend({
 			};
 		})(this._path), ms);
 				
-	},
+	}
 
 });
 
