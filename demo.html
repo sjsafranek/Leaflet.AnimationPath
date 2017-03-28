@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Demo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+
+		<script src="http://charts.animateddata.co.uk/ukwind/js/d3.v3.min.js"></script>
+
+		<script src="arc.js"></script>
+
+		<style>
+			#map {
+				position: absolute; 
+				top: 0; 
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+	</body>
+	
+	<script src='https://www.mapbox.com/mapbox.js/assets/data/flights.js'></script>
+	
+	<script src='L.AnimatedPath.js'></script>
+	<script>
+
+		var map;
+		var path;
+		
+		
+		document.addEventListener('DOMContentLoaded', function() {
+
+			var defaultLayer = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+				attribution: 'Esri, HERE, DeLorme, MapmyIndia, © OpenStreetMap contributors, and the GIS user community',
+				reuseTiles: true,
+				maxZoom: 16
+			});
+
+
+			map = L.map('map',{
+				maxZoom:20,
+				layers: [
+					defaultLayer
+				]
+			}).setView([0,0], 2)
+
+			// Transform the short [lat,lng] format in our
+			// data into the {x, y} expected by arc.js.
+			function obj(ll) { return { y: ll[0], x: ll[1] }; }
+				
+			var generator = new arc.GreatCircle(
+				obj(pairs[0][0]),
+				obj(pairs[0][1]));
+			var line = generator.Arc(100, { offset: 10 });
+				
+				
+			path = new L.AnimatedPath(
+				line.geometries[0].coords.map(function(c) {
+					return c.reverse();
+				})
+			)
+
+			path.addTo(map);
+				
+			path.animate();
+
+
+
+		});
+
+
+	</script>	
+</html>
+
