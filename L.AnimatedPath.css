@@ -1,0 +1,15 @@
+
+.animated-path {
+	stroke-dasharray: 5, 7;
+	stroke-dashoffset: 1000;
+	animation: dash 10s linear forwards infinite;
+}
+
+@keyframes dash {
+	from {
+		stroke-dashoffset: 1000;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
