@@ -10,7 +10,7 @@ L.AnimatedPath = L.Polyline.extend({
 		opacity: 0.5,
 		smoothFactor: 1,
 		dashArray: "5, 7",
-		animationSpeed: 10000,
+		//animationSpeed: 10000,
 		maxPathLength: 300		// removes old latlng values
 	},
 	
@@ -18,7 +18,7 @@ L.AnimatedPath = L.Polyline.extend({
         L.Util.setOptions(this, {});
 		L.Polyline.prototype.initialize.call(this, latlngs, options);
 	},
-	
+/*	
 	setAnimationSpeed: function(milliseconds) {
 		this.options.animationSpeed = milliseconds;
 	},
@@ -26,13 +26,15 @@ L.AnimatedPath = L.Polyline.extend({
 	getAnimationSpeed: function() {
 		return this.options.animationSpeed;
 	},
-	
+*/		
 	getMaxPathLength: function() {
 		return this.options.maxPathLength;
 	},
-	
+
 	addTo: function(map) {
 		L.Polyline.prototype.addTo.call(this, map);
+		
+		// Start css animations
 		this._path.classList.add("animated-path");
 	},
 	
