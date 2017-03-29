@@ -2,7 +2,7 @@
 .animated-path {
 	stroke-dasharray: 5, 7;
 	stroke-dashoffset: 1000;
-	animation: dash 10s linear forwards infinite;
+	animation: dash 30s linear forwards infinite;
 }
 
 @keyframes dash {
